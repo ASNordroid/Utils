@@ -28,3 +28,4 @@ def learn_my_taste():
 # news_file.close()
 
 learn_my_taste()
+
