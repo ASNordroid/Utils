@@ -9,8 +9,8 @@ def send_image(file):
     return request.text
 
 
-def download(*links):
-    for i in links:
+def download(*urls):
+    for i in urls:
         new_img_html = requests.get(i)
         soup_new = BeautifulSoup(new_img_html, 'html.parser')
 
@@ -28,25 +28,18 @@ for image_file in os.listdir(source_folder):
 
     soup = BeautifulSoup(html_doc, 'html.parser')
     global_div = soup.find('div', {'class': 'pages'})
-    arr = []
+    data = []
     links = []
     for nested_div in global_div.children:
-        for i in BeautifulSoup(str(nested_div), 'html.parser').find_all(['th', 'td', 'a']):
-            if i.name == 'a':
-                if 'http:' in i['href']:
-                    links.append(i['href'])
-                else:
-                    links.append('http:' + i['href'])
+        for tag in BeautifulSoup(str(nested_div), 'html.parser').find_all(['th', 'td', 'a']):
+            if tag.name == 'a':
+                links.append(tag['href'] if 'http:' in tag['href'] else 'http:' + tag['href'])
             else:
-                #for _ in i.strings:
-                    arr.append(i.string)
+                data.append(tag.string)
 
-    arr = arr[3:] # delete info about old picture
-    # for t in range(len(arr)):
-    #     print(arr[t])
-    #     if (t+1) % 5 == 0: print()
-    print(arr)
+    data = data[3:] # delete info about old picture
+    print(links)
 
-    html_f = 'C:\\Users\\Ant\\Desktop\\'
-    with open(html_f + image_file + '.html', 'wb') as ht:
-        ht.write(soup.prettify().encode('utf-8'))
+    html_f = 'C:\\Users\\Ant\\Desktop\\test\\'
+    with open(html_f + image_file + '.html', 'wb') as html_doc_new:
+        html_doc_new.write(soup.prettify().encode('utf-8'))
