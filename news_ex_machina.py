@@ -34,29 +34,36 @@ def get_news():
     news_str = []
     junk = ["from?", "item?"]
     i = 0
-    while next_page != '' and i < 3:
-        i += 1
+    while next_page != '':
+        links = []
         news_html = rq.get(next_page).content
-
-        tt = []
-
         soup = BeautifulSoup(news_html, "html.parser")
 
         for tag in soup.find_all("td", {"class": "title"}):
             t = tag.find_all("a")
             for tg in t:
                 if all(_ not in tg['href'] for _ in junk):
-                    tt.append(tg.string + ' - ' + str(tg['href']) + '\n')
+                    links.append(tg.string + ' - ' + str(tg['href']) + '\n')
 
-        next_page = 'https://news.ycombinator.com/' + tt[-1].split(' - ')[1]
-        news_str.append(tt[:-1])
-        print(next_page)
-    for i in news_str:
-        for j in i:
-            print(j)
+        if i == 0:
+            i += 1
+            save_page = news_str[0][0]
+        else:
+            for i in range(1, len(news_str)):
+                if save_page in news_str[i]:
+                    break
 
-    # with open('C:\\Users\\Ant\\Desktop\\news.txt', 'wb') as news_file:
-    #     news_file.write(news_str.encode('utf-8'))
+        next_page = 'https://news.ycombinator.com/' + links[-1].split(' - ')[1]
+        news_str.append(links[:-1])
+        # print(next_page)
+    # for i in news_str:
+    #     for j in i:
+    #         print(j)
+
+    with open('C:\\Users\\Ant\\Desktop\\news.txt', 'ab') as news_file:
+        for i in news_str:
+            for j in i:
+                news_file.write(j.encode('utf-8'))
 
 get_news()
 learn_my_taste()
