@@ -46,36 +46,40 @@ def get_news():
             for tg in tag.find_all("a"):
                 if all(_ not in tg['href'] for _ in junk):
                     links.append(tg.string + ' - ' + str(tg['href']) + '\n')
+        c = 0
+        for tag in soup.find_all("span", {"class": "age"}):
+            print('https://news.ycombinator.com/' + str(tag.find('a')['href']))
+            c += 1
 
-        # if next_page == 'https://news.ycombinator.com/newest':
-        #     print(links[0])
-        #     save_page = links[0]
-        # else:
-        #     with open('C:\\Users\\Ant\\Desktop\\news.txt', '+b') as news_file:
-        #         temp = news_file.read().decode()
-        #         print('tmp' + temp[0])
-        #         load_page = temp[0]
-        #         news_file.write(temp[1:].encode())
-        #     for i in links:
-        #         if load_page == i:
-        #             print('broke')
-        #             break
+        if next_page == 'https://news.ycombinator.com/newest':
+            print(links[0])  # debug
+            save_page = links[0]
+        else:
+            with open('C:\\Users\\Ant\\Desktop\\news.txt', 'rb') as news_file:
+                temp = news_file.read().decode()
+                print('tmp' + temp.split('\n')[0])  # debug
+                load_page = temp.split('\n')[0]
+            for i in links:
+                if load_page == i:
+                    print('broke')  # debug
+                    break
 
         next_page = 'https://news.ycombinator.com/' + links[-1].split(' - ')[1]
         news_str.append(links[:-1])
-        print(next_page)
+        print(next_page)  # debug
     for i in news_str:
         for j in i:
-            print(j)
+            print(j)  # debug
 
-    # with open('C:\\Users\\Ant\\Desktop\\news.txt', 'rb') as news_file:
-    #     temp = news_file.read().decode()
-    # with open('C:\\Users\\Ant\\Desktop\\news.txt', 'wb') as news_file:
-    #     save_page += temp
-    #     news_file.write(save_page.encode())
-    #     for i in news_str:
-    #         for j in i:
-    #             news_file.write(j.encode())
+    with open('C:\\Users\\Ant\\Desktop\\news.txt', 'rb') as news_file:
+        temp = news_file.read().decode().split('\n')[1:]
+        print(temp)  # debug
+    with open('C:\\Users\\Ant\\Desktop\\news.txt', 'wb') as news_file:
+        save_page += '\n'.join(temp)
+        news_file.write(save_page.encode())
+        for i in news_str:
+            for j in i:
+                news_file.write(j.encode())
 
 get_news()
 learn_my_taste()
