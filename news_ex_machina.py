@@ -32,7 +32,6 @@ def learn_my_taste():
 def get_news():
     next_page = 'https://news.ycombinator.com/newest'
     news_str = []
-    junk = ["from?"]
     l = 0  # temp, for testing
     c1 = 0  # debug
 
@@ -44,12 +43,15 @@ def get_news():
 
         for tag in soup.find_all("td", {"class": "title"}):
             for tg in tag.find_all("a"):
-                if all(_ not in tg['href'] for _ in junk):
-                    links.append(tg.string + ' - ' + str(tg['href']) + '\n')
+                if "from?" not in tg['href']:
+                    if "item?" in tg['href']:
+                        links.append(tg.string)
+                    else:
+                        links.append(tg.string + ' - ' + str(tg['href']))
         c = 0
         for tag in soup.find_all("span", {"class": "age"}):
+            links[c] += ' - ' + 'https://news.ycombinator.com/' + str(tag.find('a')['href']) + '\n'
             c += 1
-            print(c, 'https://news.ycombinator.com/' + str(tag.find('a')['href']))
 
         if next_page != 'https://news.ycombinator.com/newest':
             with open('C:\\Users\\Ant\\Desktop\\news.txt', 'rb') as news_file:
