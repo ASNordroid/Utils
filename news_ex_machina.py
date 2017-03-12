@@ -34,7 +34,7 @@ def get_news():
     news_str = []
     junk = ["from?", "item?"]
     l = 0  # temp, for testing
-    save_page = ''
+    c1 = 0  # debug
 
     while l < 3:
         l += 1
@@ -51,16 +51,12 @@ def get_news():
             print('https://news.ycombinator.com/' + str(tag.find('a')['href']))
             c += 1
 
-        if next_page == 'https://news.ycombinator.com/newest':
-            print(links[0])  # debug
-            save_page = links[0]
-        else:
+        if next_page != 'https://news.ycombinator.com/newest':
             with open('C:\\Users\\Ant\\Desktop\\news.txt', 'rb') as news_file:
-                temp = news_file.read().decode()
-                print('tmp' + temp.split('\n')[0])  # debug
-                load_page = temp.split('\n')[0]
+                temp = news_file.readline().decode()
+                print('tmp' + temp)  # debug
             for i in links:
-                if load_page == i:
+                if temp == i:
                     print('broke')  # debug
                     break
 
@@ -69,14 +65,10 @@ def get_news():
         print(next_page)  # debug
     for i in news_str:
         for j in i:
-            print(j)  # debug
+            c1 += 1
+            print(c1, j)  # debug
 
-    with open('C:\\Users\\Ant\\Desktop\\news.txt', 'rb') as news_file:
-        temp = news_file.read().decode().split('\n')[1:]
-        print(temp)  # debug
     with open('C:\\Users\\Ant\\Desktop\\news.txt', 'wb') as news_file:
-        save_page += '\n'.join(temp)
-        news_file.write(save_page.encode())
         for i in news_str:
             for j in i:
                 news_file.write(j.encode())
