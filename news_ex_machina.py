@@ -1,4 +1,4 @@
-# Read new hackernews post and decide if I should read'em
+# Get new hackernews post and decide if I should read'em
 import requests as rq
 from bs4 import BeautifulSoup
 
