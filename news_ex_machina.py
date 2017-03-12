@@ -55,10 +55,10 @@ def get_news():
 
         if next_page != 'https://news.ycombinator.com/newest':
             with open('C:\\Users\\Ant\\Desktop\\news.txt', 'rb') as news_file:
-                temp = news_file.readline().decode()
-                print('tmp' + temp)  # debug
+                temp = news_file.read().decode().split('\n')
+                print('tmp: ' + temp[len(temp) - 89])  # debug
             for i in links:
-                if temp == i:
+                if temp[len(temp) - 89] == i:
                     print('broke')  # debug
                     break
 
@@ -70,7 +70,7 @@ def get_news():
             c1 += 1
             print(c1, j)  # debug
 
-    with open('C:\\Users\\Ant\\Desktop\\news.txt', 'wb') as news_file:
+    with open('C:\\Users\\Ant\\Desktop\\news.txt', 'ab') as news_file:
         for i in news_str:
             for j in i:
                 news_file.write(j.encode())
