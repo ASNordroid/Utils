@@ -63,17 +63,30 @@ def get_news():
         #             break
 
         next_page = 'https://news.ycombinator.com/' + links[-1].split(' - ')[1]
-        news_str.append(links[:-1])
-        print(next_page)  # debug
-    for i in news_str:
-        for j in i:
-            c1 += 1
-            print(c1, j)  # debug
+        for i in links[:-1]:
+            news_str.append(i)
+    #     print(next_page)  # debug
+    # for i in news_str:
+    #     for j in i:
+    #         c1 += 1
+    #         print(c1, j)  # debug
 
     with open('C:\\Users\\Ant\\Desktop\\news.txt', 'ab') as news_file:
         for i in news_str:
-            for j in i:
-                news_file.write(j.encode())
+            # for j in i:
+            news_file.write(i.encode())
 
-get_news()
+    return news_str
+
+def exclude_unrelevant_news(f_titles, key_words):
+    relevant_news = []
+    for title in f_titles:
+        #  t = normilize(title)
+        t = title.split()
+
+
 learn_my_taste()
+news = get_news()
+titles = [i.split(' - ')[0] for i in news]
+print(titles)
+
