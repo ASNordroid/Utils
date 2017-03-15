@@ -83,6 +83,10 @@ def exclude_unrelevant_news(f_titles, key_words):
     for title in f_titles:
         #  t = normilize(title)
         t = title.split()
+        rating = 0
+        for i in t:
+            if i in key_words:
+                rating += 1
 
 
 learn_my_taste()
