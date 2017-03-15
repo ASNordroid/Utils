@@ -3,6 +3,10 @@ import requests as rq
 from bs4 import BeautifulSoup
 
 
+# def normilize(string):
+# function for deleting special symbols from string
+
+
 def learn_my_taste():
     with open('C:\\Users\\Ant\\Desktop\\best.txt', 'rb') as my_taste_file:
         my_taste = my_taste_file.read().decode()
