@@ -32,14 +32,14 @@ def learn_my_taste():
 def get_news():
     next_page = 'https://news.ycombinator.com/newest'
     news_str = []
+    news_file = open('C:\\Users\\Ant\\Desktop\\news.txt', 'rb')
     l = 0  # temp, for testing
     c1 = 0  # debug
 
     while l < 3:
         l += 1
         links = []
-        news_html = rq.get(next_page).content
-        soup = BeautifulSoup(news_html, "html.parser")
+        soup = BeautifulSoup(rq.get(next_page).content, "html.parser")
 
         for tag in soup.find_all("td", {"class": "title"}):
             for tg in tag.find_all("a"):
@@ -53,14 +53,14 @@ def get_news():
             links[c] += ' - ' + 'https://news.ycombinator.com/' + str(tag.find('a')['href']) + '\n'
             c += 1
 
-        if next_page != 'https://news.ycombinator.com/newest':
-            with open('C:\\Users\\Ant\\Desktop\\news.txt', 'rb') as news_file:
-                temp = news_file.read().decode().split('\n')
-                print('tmp: ' + temp[len(temp) - 89])  # debug
-            for i in links:
-                if temp[len(temp) - 89] == i:
-                    print('broke')  # debug
-                    break
+        # if next_page != 'https://news.ycombinator.com/newest':
+        #     temp = news_file.read().decode().split('\n')
+        #     print('tmp: ' + temp[len(temp) - 89])  # debug
+        #     for i in links:
+        #         if temp[len(temp) - 89] == i:
+        #             news_file.close()
+        #             print('broke')  # debug
+        #             break
 
         next_page = 'https://news.ycombinator.com/' + links[-1].split(' - ')[1]
         news_str.append(links[:-1])
