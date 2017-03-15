@@ -88,6 +88,11 @@ def exclude_unrelevant_news(f_titles, key_words):
             if i in key_words:
                 rating += 1
 
+        if rating > 0:
+            relevant_news += title
+
+    return relevant_news
+
 
 learn_my_taste()
 news = get_news()
