@@ -28,6 +28,7 @@ def learn_my_taste():
                 words.append(s)
 
     print(words)
+    return words
 
     # filter common words, same stuff, delete brackets and same
     # count number of prepared words in sentence for every new sentence
@@ -89,6 +90,7 @@ def exclude_unrelevant_news(f_titles, key_words):
     for title in f_titles:
         #  t = normilize(title)
         t = title.split()
+        print(t)
         rating = 0
         for i in t:
             if i in key_words:
@@ -100,8 +102,9 @@ def exclude_unrelevant_news(f_titles, key_words):
     return relevant_news
 
 
-learn_my_taste()
+w = learn_my_taste()
 news = get_news()
 titles = [i.split(' - ')[0] for i in news]
 print(titles)
+print(exclude_unrelevant_news(titles, w))
 
