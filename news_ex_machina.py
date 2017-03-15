@@ -13,6 +13,8 @@ def learn_my_taste():
     sentences = my_taste.split('\n')
 
     words = []
+    junk = ['the', 'for', 'of', 'as', 'you', 'your', 'in', 'on', 'be', 'by', 'is', 'are', 'am', 'to', 'or', 'and',
+            'like', 'does', 'doesnt', 'not', 'have', 'should', 'never', 'been', 'it', 'do', 'at', 'their', 'an']
     for sentence in sentences:
         temp = [i.lower() for i in sentence.split()]
         for word in temp:
@@ -22,7 +24,7 @@ def learn_my_taste():
             for i in word:
                 if i.isalnum():
                     s += i
-            if len(s) > 1 and not s.isnumeric():
+            if len(s) > 1 and not s.isnumeric() and s not in junk:
                 words.append(s)
 
     print(words)
