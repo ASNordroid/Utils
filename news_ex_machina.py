@@ -85,7 +85,8 @@ def get_news():
 
     return news_str
 
-def exclude_unrelevant_news(f_titles, key_words):
+
+def exclude_irrelevant_news(f_titles, key_words):
     relevant_news = []
     for title in f_titles:
         #  t = normilize(title)
@@ -106,5 +107,5 @@ w = learn_my_taste()
 news = get_news()
 titles = [i.split(' - ')[0] for i in news]
 print(titles)
-print(exclude_unrelevant_news(titles, w))
+print(exclude_irrelevant_news(titles, w))
 
