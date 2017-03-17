@@ -39,7 +39,8 @@ for image_file in os.listdir(source_folder):
 
     data = data[3:] # delete info about old picture
     print(links)
+    print(data)
 
-    html_f = 'C:\\Users\\Ant\\Desktop\\test\\'
-    with open(html_f + image_file + '.html', 'wb') as html_doc_new:
-        html_doc_new.write(soup.prettify().encode('utf-8'))
+    # html_f = 'C:\\Users\\Ant\\Desktop\\test\\'
+    # with open(html_f + image_file + '.html', 'wb') as html_doc_new:
+    #     html_doc_new.write(soup.prettify().encode('utf-8'))
