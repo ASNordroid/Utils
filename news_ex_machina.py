@@ -3,7 +3,13 @@ import requests as rq
 from bs4 import BeautifulSoup
 
 
-# def normilize(string):
+# filter common words, same stuff, delete brackets and same - DONE
+# count number of prepared words in sentence for every new sentence - DONE
+# if found new is approved by me add words to best
+# if found new is not approved by me delete words from best (?)
+
+
+# def normalize(string):
 # function for deleting special symbols from string
 
 
@@ -29,11 +35,6 @@ def learn_my_taste():
 
     print(words)
     return words
-
-    # filter common words, same stuff, delete brackets and same
-    # count number of prepared words in sentence for every new sentence
-    # if found new is approved by me add words to best
-    # if found new is not approved by me delete words from best (?)
 
 
 def get_news():
@@ -89,7 +90,7 @@ def get_news():
 def exclude_irrelevant_news(f_titles, key_words):
     relevant_news = []
     for title in f_titles:
-        #  t = normilize(title)
+        #  t = normalize(title)
         t = title.split()
         print(t)
         rating = 0
@@ -108,4 +109,3 @@ news = get_news()
 titles = [i.split(' - ')[0] for i in news]
 print(titles)
 print(exclude_irrelevant_news(titles, w))
-
