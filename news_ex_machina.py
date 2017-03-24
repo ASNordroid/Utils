@@ -9,20 +9,16 @@ from bs4 import BeautifulSoup
 # if found new is not approved by me delete words from best (?)
 
 
-# def normalize(string):
 # function for deleting special symbols from string
-
-
-def learn_my_taste():
-    with open('C:\\Users\\Ant\\Desktop\\best.txt', 'rb') as my_taste_file:
-        my_taste = my_taste_file.read().decode()
-    sentences = my_taste.split('\n')
-
+def normalize(string):
+    sentences = string.split('\n')
     words = []
     junk = ['the', 'for', 'of', 'as', 'you', 'your', 'in', 'on', 'be', 'by', 'is', 'are', 'am', 'to', 'or', 'and',
-            'like', 'does', 'doesnt', 'not', 'have', 'should', 'never', 'been', 'it', 'do', 'at', 'their', 'an']
+            'like', 'does', 'doesnt', 'not', 'have', 'should', 'never', 'been', 'it', 'do', 'at', 'their', 'an', 'with']
+
     for sentence in sentences:
         temp = [i.lower() for i in sentence.split()]
+
         for word in temp:
             s = ''
             if word.endswith('\'s') or word.endswith('’s'):
@@ -33,15 +29,22 @@ def learn_my_taste():
             if len(s) > 1 and not s.isnumeric() and s not in junk:
                 words.append(s)
 
-    print(words)
     return words
+
+
+def learn_my_taste():
+    with open('C:\\Users\\Ant\\Desktop\\best.txt', 'rb') as my_taste_file:
+        my_taste = my_taste_file.read().decode()
+
+    print(normalize(my_taste))
+    return normalize(my_taste)
 
 
 def get_news():
     next_page = 'https://news.ycombinator.com/newest'
     news_str = []
-    news_file = open('C:\\Users\\Ant\\Desktop\\news.txt', 'rb')
-    l = 0  # temp, for testing
+    # news_file = open('C:\\Users\\Ant\\Desktop\\news.txt', 'rb')
+    l = 0  # debug
     c1 = 0  # debug
 
     while l < 3:
@@ -73,6 +76,7 @@ def get_news():
         next_page = 'https://news.ycombinator.com/' + links[-1].split(' - ')[1]
         for i in links[:-1]:
             news_str.append(i)
+
     #     print(next_page)  # debug
     # for i in news_str:
     #     for j in i:
@@ -89,9 +93,12 @@ def get_news():
 
 def exclude_irrelevant_news(f_titles, key_words):
     relevant_news = []
-    for title in f_titles:
-        #  t = normalize(title)
-        t = title.split()
+    titles = [i.split(' - ')[0] for i in f_titles]
+    print('t: ', titles)
+    cou = 0
+    for title in titles:
+        t = normalize(title)
+
         print(t)
         rating = 0
         for i in t:
@@ -99,13 +106,11 @@ def exclude_irrelevant_news(f_titles, key_words):
                 rating += 1
 
         if rating > 0:
-            relevant_news += title
-
+            relevant_news.append(f_titles[cou][:-1])
+        cou += 1
     return relevant_news
 
 
 w = learn_my_taste()
-news = get_news()
-titles = [i.split(' - ')[0] for i in news]
-print(titles)
-print(exclude_irrelevant_news(titles, w))
+print(get_news())
+print(exclude_irrelevant_news(get_news(), w))
