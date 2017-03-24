@@ -8,6 +8,8 @@ from bs4 import BeautifulSoup
 # if found new is approved by me add words to best
 # if found new is not approved by me delete words from best (?)
 
+# TODO: add ability to save new key words - ?
+
 
 # function for deleting special symbols from string
 def normalize(string):
@@ -99,12 +101,13 @@ def exclude_irrelevant_news(f_titles, key_words):
     for title in titles:
         t = normalize(title)
 
-        print(t)
+        # print(t)
         rating = 0
         for i in t:
             if i in key_words:
+                print(i, end='-') # debug
                 rating += 1
-
+        print(rating) # debug
         if rating > 0:
             relevant_news.append(f_titles[cou][:-1])
         cou += 1
