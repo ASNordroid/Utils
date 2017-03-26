@@ -8,6 +8,8 @@ from bs4 import BeautifulSoup
 # if found new is approved by me add words to best
 # if found new is not approved by me delete words from best (?)
 
+# add rating for words: if line with this word is approved by me rating+=1, else -=1
+
 # TODO: add ability to save new key words - ?
 
 
@@ -38,7 +40,7 @@ def learn_my_taste():
     with open('C:\\Users\\Ant\\Desktop\\best.txt', 'rb') as my_taste_file:
         my_taste = my_taste_file.read().decode()
 
-    print(normalize(my_taste))
+    # print(normalize(my_taste))
     return normalize(my_taste)
 
 
@@ -87,7 +89,6 @@ def get_news():
 
     with open('C:\\Users\\Ant\\Desktop\\news.txt', 'ab') as news_file:
         for i in news_str:
-            # for j in i:
             news_file.write(i.encode())
 
     return news_str
@@ -100,20 +101,33 @@ def exclude_irrelevant_news(f_titles, key_words):
     cou = 0
     for title in titles:
         t = normalize(title)
-
-        # print(t)
         rating = 0
+
         for i in t:
             if i in key_words:
-                print(i, end='-') # debug
+                print(i, end='-')  # debug
                 rating += 1
-        print(rating) # debug
+        print(rating)  # debug
         if rating > 0:
             relevant_news.append(f_titles[cou][:-1])
         cou += 1
+
     return relevant_news
+
+
+def approve(noisy_news):
+    good_news = []
+
+    for n in noisy_news:
+        print(n)
+        if input() == 'y':
+            good_news.append(n)
+
+    print(noisy_news)
+    print(good_news)
 
 
 w = learn_my_taste()
 print(get_news())
-print(exclude_irrelevant_news(get_news(), w))
+news = exclude_irrelevant_news(get_news(), w)
+approve(news)
