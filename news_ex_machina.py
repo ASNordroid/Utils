@@ -123,11 +123,25 @@ def approve(noisy_news):
         if input() == 'y':
             good_news.append(n)
 
-    print(noisy_news)
-    print(good_news)
+    # print(noisy_news)
+    # print(good_news)
+    return good_news
 
 
 w = learn_my_taste()
-print(get_news())
-news = exclude_irrelevant_news(get_news(), w)
-approve(news)
+
+all_news = get_news()
+chosen_news = exclude_irrelevant_news(get_news(), w)
+
+s1 = approve(all_news)
+s2 = approve(chosen_news)
+
+# precision = tp / (tp + fp)
+tp = 0
+for i in all_news:
+    for j in chosen_news:
+        if i == j:
+            tp += 1
+print()
+
+# recall = tp / (tp + fn)
