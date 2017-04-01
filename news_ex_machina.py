@@ -88,15 +88,15 @@ def get_news():
     #         print(c1, j)  # debug
 
     with open('C:\\Users\\Ant\\Desktop\\news.txt', 'ab') as news_file:
-        for i in news_str:
-            news_file.write(i.encode())
+        for n in news_str:
+            news_file.write(n.encode())
 
     return news_str
 
 
 def exclude_irrelevant_news(f_titles, key_words):
     relevant_news = []
-    titles = [i.split(' - ')[0] for i in f_titles]
+    titles = [t.split(' - ')[0] for t in f_titles]
     print('t: ', titles)
     cou = 0
     for title in titles:
@@ -131,17 +131,17 @@ def approve(noisy_news):
 w = learn_my_taste()
 
 all_news = get_news()
-chosen_news = exclude_irrelevant_news(get_news(), w)
+chosen_news = exclude_irrelevant_news(all_news, w)
 
-s1 = approve(all_news)
+# s1 = approve(all_news)
 s2 = approve(chosen_news)
 
 # precision = tp / (tp + fp)
-tp = 0
-for i in all_news:
-    for j in chosen_news:
-        if i == j:
-            tp += 1
-print()
+# tp = 0
+# for i in all_news:
+#     for j in chosen_news:
+#         if i == j:
+#             tp += 1
+# print()
 
 # recall = tp / (tp + fn)
