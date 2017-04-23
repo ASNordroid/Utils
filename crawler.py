@@ -21,15 +21,15 @@ def normalize(string):
             'like', 'does', 'doesnt', 'not', 'have', 'should', 'never', 'been', 'it', 'do', 'at', 'their', 'an', 'with']
 
     for sentence in sentences:
-        temp = [i.lower() for i in sentence.split()]
+        temp = sentence.lower().split()
 
         for word in temp:
             s = ''
             if word.endswith('\'s') or word.endswith('’s'):
                 word = word[:-2]
-            for i in word:
-                if i.isalnum():
-                    s += i
+            for letter in word:
+                if letter.isalnum():
+                    s += letter
             if len(s) > 1 and not s.isnumeric() and s not in junk:
                 words.append(s)
 
@@ -123,25 +123,23 @@ def approve(noisy_news):
         if input() == 'y':
             good_news.append(n)
 
-    # print(noisy_news)
-    # print(good_news)
     return good_news
 
 
 w = learn_my_taste()
 
 all_news = get_news()
+print(all_news)
 chosen_news = exclude_irrelevant_news(all_news, w)
+print(chosen_news)
 
-# s1 = approve(all_news)
+s1 = approve(all_news)
 s2 = approve(chosen_news)
 
-# precision = tp / (tp + fp)
-# tp = 0
-# for i in all_news:
-#     for j in chosen_news:
-#         if i == j:
-#             tp += 1
-# print()
+tp = len(s2)
+fp = len(chosen_news) - tp
+precision = tp / (tp + fp)
+print('precision:', precision)
 
-# recall = tp / (tp + fn)
+#fn = len(all_news) - len()
+#recall = tp / (tp + fn)
