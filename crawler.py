@@ -1,6 +1,7 @@
 # Get new hackernews post and decide if I should read'em
 import requests as rq
 from bs4 import BeautifulSoup
+import re
 
 
 # filter common words, same stuff, delete brackets and same - DONE
@@ -56,13 +57,19 @@ def get_news():
         links = []
         soup = BeautifulSoup(rq.get(next_page).content, "html.parser")
 
-        for tag in soup.find_all("td", {"class": "title"}):
-            for tg in tag.find_all("a"):
-                if "from?" not in tg['href']:
-                    if "item?" in tg['href']:
-                        links.append(tg.string)
-                    else:
-                        links.append(tg.string + ' - ' + str(tg['href']))
+        # s1 = soup.find('tr', {'class':'athing'}).string
+        # s2 = soup.find('td', {'class':'subtext'}).find('span', {'class':'score'}).string
+        # print()
+        c1 = 0
+        for tag in soup.find_all("tr", {"class": "athing"}):
+            c1 += 1
+            print(c1, tag)
+        #     for tg in tag.find_all("a"):
+        #         if "from?" not in tg['href']:
+        #             if "item?" in tg['href']:
+        #                 links.append(tg.string)
+        #             else:
+        #                 links.append(tg.string + ' - ' + str(tg['href']))
         c = 0
         for tag in soup.find_all("span", {"class": "age"}):
             links[c] += ' - ' + 'https://news.ycombinator.com/' + str(tag.find('a')['href']) + '\n'
@@ -126,20 +133,20 @@ def approve(noisy_news):
     return good_news
 
 
-w = learn_my_taste()
+# w = learn_my_taste()
 
 all_news = get_news()
 print(all_news)
-chosen_news = exclude_irrelevant_news(all_news, w)
-print(chosen_news)
-
-s1 = approve(all_news)
-s2 = approve(chosen_news)
-
-tp = len(s2)
-fp = len(chosen_news) - tp
-precision = tp / (tp + fp)
-print('precision:', precision)
+# chosen_news = exclude_irrelevant_news(all_news, w)
+# print(chosen_news)
+#
+# s1 = approve(all_news)
+# s2 = approve(chosen_news)
+#
+# tp = len(s2)
+# fp = len(chosen_news) - tp
+# precision = tp / (tp + fp)
+# print('precision:', precision)
 
 #fn = len(all_news) - len()
 #recall = tp / (tp + fn)
