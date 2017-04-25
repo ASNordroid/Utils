@@ -1,6 +1,6 @@
 import crawler
 
-base = r'C:\Users\Ant\PycharmProjects\Utils\base.txt'
+base = 'C:\\Users\\Ant\\PycharmProjects\\Utils\\base.txt'
 
 
 def read_from_base(file_name):
@@ -15,8 +15,9 @@ def read_from_base(file_name):
     return articles
 
 
-def write_to_base(header, properties):
+def write_to_base(news):
     with open(base, 'a') as file:
-        file.write(header + ' - ' + properties)
+        for i in news:
+            file.write(i.encode())
 
 # def is_in_base(header):
