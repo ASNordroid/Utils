@@ -20,11 +20,11 @@ def __main__():
         inp = input('> ')
 
         if inp == 'news':
-            # w = learn_my_taste()
-            news = crawler.get_news()
-            print(news)
+            w = nlp.learn_my_taste()
+            all_news = crawler.get_news()
+            print(all_news)
 
-            chosen_news = exclude_irrelevant_news(all_news, w)
+            chosen_news = nlp.exclude_irrelevant_news(all_news, w)
             print(chosen_news)
 
             s1 = approve(all_news)

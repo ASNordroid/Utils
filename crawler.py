@@ -1,4 +1,5 @@
 # Get new hackernews post and decide if I should read'em
+import database
 import requests as rq
 from bs4 import BeautifulSoup
 
@@ -13,8 +14,8 @@ from bs4 import BeautifulSoup
 # TODO: add ability to save new key words - ?
 
 
-
-
+def get_next_page():
+    stop = database.read_from_base(database.base)
 
 
 def get_news():
@@ -39,11 +40,3 @@ def get_news():
             news.append(' '.join((title, comments, link, num_of_comm, timestamp, rating)) + '\n')
 
     return news
-
-
-
-
-
-
-
-

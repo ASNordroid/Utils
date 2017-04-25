@@ -1,6 +1,7 @@
 import crawler
 
-base = 'C:\\Users\\Ant\\PycharmProjects\\Utils\\base.txt'
+main_db = 'C:\\Users\\Ant\\PycharmProjects\\Utils\\base.txt'
+best_db = 'C:\\Users\\Ant\\PycharmProjects\\Utils\\best.txt'
 
 
 def read_from_base(file_name):
@@ -8,15 +9,16 @@ def read_from_base(file_name):
         for line in file.readlines():
             articles = {}
 
-            header = line.split(' - ')[0]
-            properties = line.split(' - ')[1].split()
+            header = line.split()[0]
+            properties = line.split()[1].split()
 
             articles[header] = properties
+
     return articles
 
 
 def write_to_base(news):
-    with open(base, 'a') as file:
+    with open(main_db, 'a') as file:
         for i in news:
             file.write(i.encode())
 
