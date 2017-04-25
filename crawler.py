@@ -1,7 +1,6 @@
 # Get new hackernews post and decide if I should read'em
 import requests as rq
 from bs4 import BeautifulSoup
-import re
 
 
 # filter common words, same stuff, delete brackets and same - DONE
@@ -47,19 +46,14 @@ def learn_my_taste():
 
 def get_news():
     next_page = 'https://news.ycombinator.com/newest'
-    news_str = []
-    # news_file = open('C:\\Users\\Ant\\Desktop\\news.txt', 'rb')
-    l = 0  # debug
-    c1 = 0  # debug
+    news = []
+    l = 0
 
-    while l < 3:
+    while l < 1:
         l += 1
-        links = []
         soup = BeautifulSoup(rq.get(next_page).content, 'html.parser')
 
-        c1 = 0
         for tag in soup.find_all('tr', {'class': 'athing'}):
-            c1 += 1
             comments = 'https://news.ycombinator.com/item?id=' + tag['id']
             link = tag.find_all('td', {"class": "title"})[1].a['href']
             title = tag.find_all('td', {"class": "title"})[1].a.string
@@ -69,11 +63,13 @@ def get_news():
             if tag.next_sibling.find('td', {'class': 'subtext'}).find_all('a')[-1].string == 'discuss':
                 num_of_comm = '0 comments'
 
+            news.append(' '.join((title, comments, link, num_of_comm, timestamp, rating)) + '\n')
+
     with open('C:\\Users\\Ant\\Desktop\\news.txt', 'ab') as news_file:
-        for n in news_str:
+        for n in news:
             news_file.write(n.encode())
 
-    return news_str
+    return news
 
 
 def exclude_irrelevant_news(f_titles, key_words):
@@ -111,7 +107,7 @@ def approve(noisy_news):
 # w = learn_my_taste()
 
 all_news = get_news()
-# print(all_news)
+print(all_news)
 # chosen_news = exclude_irrelevant_news(all_news, w)
 # print(chosen_news)
 #
