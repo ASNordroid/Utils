@@ -55,44 +55,19 @@ def get_news():
     while l < 3:
         l += 1
         links = []
-        soup = BeautifulSoup(rq.get(next_page).content, "html.parser")
+        soup = BeautifulSoup(rq.get(next_page).content, 'html.parser')
 
-        # s1 = soup.find('tr', {'class':'athing'}).string
-        # s2 = soup.find('td', {'class':'subtext'}).find('span', {'class':'score'}).string
-        # print()
         c1 = 0
-        for tag in soup.find_all("tr", {"class": "athing"}):
+        for tag in soup.find_all('tr', {'class': 'athing'}):
             c1 += 1
-            print(c1, tag)
-        #     for tg in tag.find_all("a"):
-        #         if "from?" not in tg['href']:
-        #             if "item?" in tg['href']:
-        #                 links.append(tg.string)
-        #             else:
-        #                 links.append(tg.string + ' - ' + str(tg['href']))
-        c = 0
-        for tag in soup.find_all("span", {"class": "age"}):
-            links[c] += ' - ' + 'https://news.ycombinator.com/' + str(tag.find('a')['href']) + '\n'
-            c += 1
-
-        # if next_page != 'https://news.ycombinator.com/newest':
-        #     temp = news_file.read().decode().split('\n')
-        #     print('tmp: ' + temp[len(temp) - 89])  # debug
-        #     for i in links:
-        #         if temp[len(temp) - 89] == i:
-        #             news_file.close()
-        #             print('broke')  # debug
-        #             break
-
-        next_page = 'https://news.ycombinator.com/' + links[-1].split(' - ')[1]
-        for i in links[:-1]:
-            news_str.append(i)
-
-    #     print(next_page)  # debug
-    # for i in news_str:
-    #     for j in i:
-    #         c1 += 1
-    #         print(c1, j)  # debug
+            comments = 'https://news.ycombinator.com/item?id=' + tag['id']
+            link = tag.find_all('td', {"class": "title"})[1].a['href']
+            title = tag.find_all('td', {"class": "title"})[1].a.string
+            rating = tag.next_sibling.find('td', {'class': 'subtext'}).find_all('span')[0].string
+            timestamp = tag.next_sibling.find('td', {'class': 'subtext'}).find_all('span')[1].string
+            num_of_comm = tag.next_sibling.find('td', {'class': 'subtext'}).find_all('a')[-1].string
+            if tag.next_sibling.find('td', {'class': 'subtext'}).find_all('a')[-1].string == 'discuss':
+                num_of_comm = '0 comments'
 
     with open('C:\\Users\\Ant\\Desktop\\news.txt', 'ab') as news_file:
         for n in news_str:
@@ -136,7 +111,7 @@ def approve(noisy_news):
 # w = learn_my_taste()
 
 all_news = get_news()
-print(all_news)
+# print(all_news)
 # chosen_news = exclude_irrelevant_news(all_news, w)
 # print(chosen_news)
 #
@@ -148,5 +123,5 @@ print(all_news)
 # precision = tp / (tp + fp)
 # print('precision:', precision)
 
-#fn = len(all_news) - len()
-#recall = tp / (tp + fn)
+# fn = len(all_news) - len()
+# recall = tp / (tp + fn)
