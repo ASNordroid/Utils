@@ -4,14 +4,10 @@ import requests as rq
 from bs4 import BeautifulSoup
 
 
-# filter common words, same stuff, delete brackets and same - DONE
-# count number of prepared words in sentence for every new sentence - DONE
 # if found new is approved by me add words to best
 # if found new is not approved by me delete words from best (?)
 
 # add rating for words: if line with this word is approved by me rating+=1, else -=1
-
-# TODO: add ability to save new key words - ?
 
 
 def get_next_page():

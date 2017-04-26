@@ -1,7 +1,5 @@
-import crawler
-
-main_db = 'C:\\Users\\Ant\\PycharmProjects\\Utils\\base.txt'
-best_db = 'C:\\Users\\Ant\\PycharmProjects\\Utils\\best.txt'
+main_db = 'C:\\Users\\Ant\\PycharmProjects\\hackernews-reader\\base.txt'
+best_db = 'C:\\Users\\Ant\\PycharmProjects\\hackernews-reader\\best.txt'
 
 
 def read_from_base(file_name):
@@ -18,7 +16,7 @@ def read_from_base(file_name):
 
 
 def write_to_base(news):
-    with open(main_db, 'a') as file:
+    with open(main_db, 'ab') as file:
         for i in news:
             file.write(i.encode())
 

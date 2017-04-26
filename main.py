@@ -20,25 +20,27 @@ def __main__():
         inp = input('> ')
 
         if inp == 'news':
-            w = nlp.learn_my_taste()
+            # w = nlp.learn_my_taste()
             all_news = crawler.get_news()
             print(all_news)
 
-            chosen_news = nlp.exclude_irrelevant_news(all_news, w)
-            print(chosen_news)
+            # chosen_news = nlp.exclude_irrelevant_news(all_news, w)
+            # print(chosen_news)
+            #
+            # s1 = approve(all_news)
+            # s2 = approve(chosen_news)
+            #
+            # tp = len(s2)
+            # fp = len(chosen_news) - tp
+            # precision = tp / (tp + fp)
+            # print('precision:', precision)
+            #
+            # fn = len(all_news) - len()
+            # recall = tp / (tp + fn)
 
-            s1 = approve(all_news)
-            s2 = approve(chosen_news)
-
-            tp = len(s2)
-            fp = len(chosen_news) - tp
-            precision = tp / (tp + fp)
-            print('precision:', precision)
-
-            fn = len(all_news) - len()
-            recall = tp / (tp + fn)
-
-            database.write_to_base()
+            database.write_to_base(all_news)
         # elif inp == 'search' or inp == 's':
+        elif inp == 'quit' or inp == 'q':
+            return
 
 __main__()

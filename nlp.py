@@ -1,5 +1,6 @@
 import database
 
+
 def normalize(string):
     sentences = string.split('\n')
     words = []
