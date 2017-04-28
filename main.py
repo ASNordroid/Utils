@@ -39,7 +39,7 @@ def __main__():
             # recall = tp / (tp + fn)
 
             database.write_to_base(all_news)
-        # elif inp == 'search' or inp == 's':
+        # elif inp == 'search' or inp == 'src':
         elif inp == 'quit' or inp == 'q':
             return
 
