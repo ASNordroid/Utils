@@ -10,17 +10,19 @@ from bs4 import BeautifulSoup
 # add rating for words: if line with this word is approved by me rating+=1, else -=1
 
 
-def get_next_page():
-    stop = database.read_from_base(database.base)
+def get_stop_title():
+    return database.read_from_base(database.main_db)[-1].split(' ^ ')[0]
 
 
 def get_news():
     next_page = 'https://news.ycombinator.com/newest'
+    stop = get_stop_title()
     news = []
-    l = 0
+    depth = 0
+    max_depth = 8
 
-    while l < 1:
-        l += 1
+    while depth < max_depth:
+        depth += 1
         soup = BeautifulSoup(rq.get(next_page).content, 'html.parser')
 
         for tag in soup.find_all('tr', {'class': 'athing'}):
@@ -30,9 +32,20 @@ def get_news():
             rating = tag.next_sibling.find('td', {'class': 'subtext'}).find_all('span')[0].string
             timestamp = tag.next_sibling.find('td', {'class': 'subtext'}).find_all('span')[1].string
             num_of_comm = tag.next_sibling.find('td', {'class': 'subtext'}).find_all('a')[-1].string
-            if tag.next_sibling.find('td', {'class': 'subtext'}).find_all('a')[-1].string == 'discuss':
+            if num_of_comm == 'discuss':
                 num_of_comm = '0 comments'
 
-            news.append(' '.join((title, comments, link, num_of_comm, timestamp, rating)) + '\n')
+            news_item = title + ' ^ ' + ' '.join((comments, link, num_of_comm, timestamp, rating)) + '\n'
+            if title != stop:
+                news.append(news_item)
+            else:
+                next_page = 'false'
+                break
+
+        if next_page != 'false':
+            next_page = 'https://news.ycombinator.com/' + soup.find('a', {'class': 'morelink'})['href']
+        else:
+            database.write_to_base((news[0]))
+            break
 
     return news
