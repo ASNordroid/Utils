@@ -38,6 +38,9 @@ def __main__():
             # fn = len(all_news) - len()
             # recall = tp / (tp + fn)
 
+            a = indexer.get_index()
+            print(a)
+
             database.write_to_base(all_news)
         # elif inp == 'search' or inp == 'src':
         elif inp == 'quit' or inp == 'q':

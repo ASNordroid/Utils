@@ -11,7 +11,16 @@ from bs4 import BeautifulSoup
 
 
 def get_stop_title():
-    return database.read_from_base(database.main_db)[-1].split(' ^ ')[0]
+    db = database.read_from_base(database.main_db)
+    print(db)
+    if db != '':
+        return db[-1].split(' ^ ')[1]
+    else:
+        return 'hello'
+
+
+# def save_stop_title():
+
 
 
 def get_news():
@@ -26,7 +35,8 @@ def get_news():
         soup = BeautifulSoup(rq.get(next_page).content, 'html.parser')
 
         for tag in soup.find_all('tr', {'class': 'athing'}):
-            comments = 'https://news.ycombinator.com/item?id=' + tag['id']
+            entry_id = tag['id']
+            comments = 'https://news.ycombinator.com/item?id=' + entry_id
             link = tag.find_all('td', {"class": "title"})[1].a['href']
             title = tag.find_all('td', {"class": "title"})[1].a.string
             rating = tag.next_sibling.find('td', {'class': 'subtext'}).find_all('span')[0].string
@@ -35,7 +45,7 @@ def get_news():
             if num_of_comm == 'discuss':
                 num_of_comm = '0 comments'
 
-            news_item = title + ' ^ ' + ' '.join((comments, link, num_of_comm, timestamp, rating)) + '\n'
+            news_item = entry_id + ' ^ ' + title + ' ^ ' + ' '.join((comments, link, num_of_comm, timestamp, rating)) + '\n'
             if title != stop:
                 news.append(news_item)
             else:

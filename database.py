@@ -5,7 +5,7 @@ best_db = 'C:\\Users\\Ant\\PycharmProjects\\hackernews-reader\\best.txt'
 def read_from_base(db_name):
     articles = []
     with open(db_name, 'rb') as file:
-        for line in file.readlines():
+        for line in file:
             articles.append(line.decode())
 
     return articles
@@ -22,7 +22,7 @@ def get_headers():
     news = read_from_base(main_db)
 
     for line in news:
-        headers.append(line.split(' ^ ')[0])
+        headers.append((line.split(' ^ ')[0], line.split(' ^ ')[1]))
 
     return headers
 
