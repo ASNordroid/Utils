@@ -5,7 +5,8 @@ def normalize(string):
     sentences = string.split('\n')
     words = []
     junk = ['the', 'for', 'of', 'as', 'you', 'your', 'in', 'on', 'be', 'by', 'is', 'are', 'am', 'to', 'or', 'and',
-            'like', 'does', 'doesnt', 'not', 'have', 'should', 'never', 'been', 'it', 'do', 'at', 'their', 'an', 'with']
+            'like', 'does', 'doesnt', 'not', 'have', 'should', 'never', 'been', 'it', 'do', 'at', 'their', 'an', 'with',
+            'more', 'up', 'wont', 'dont', 'off', 'was', 'any', 'will', 'we', 'cant', 'our', 'if', 'they', 'all', 'us']
 
     for sentence in sentences:
         temp = sentence.lower().split()
@@ -36,7 +37,7 @@ def learn_my_taste():
 def exclude_irrelevant_news(f_titles, key_words):
     relevant_news = []
     titles = [_.split(' ^ ')[1] for _ in f_titles]
-    cou = 0
+    count = 0
 
     for title in titles:
         t = normalize(title)
@@ -46,7 +47,7 @@ def exclude_irrelevant_news(f_titles, key_words):
             if i in key_words:
                 rating += 1
         if rating > 0:
-            relevant_news.append(f_titles[cou])
-        cou += 1
+            relevant_news.append(f_titles[count])
+        count += 1
 
     return relevant_news

@@ -25,8 +25,11 @@ def get_news():
         for tag in soup.find_all('tr', {'class': 'athing'}):
             entry_id = tag['id']
             comments = 'https://news.ycombinator.com/item?id=' + entry_id
-            link = tag.find_all('td', {"class": "title"})[1].a['href']
             title = tag.find_all('td', {"class": "title"})[1].a.string
+            if any(('Ask HN: ', 'Show HN: ')) in title.split():
+                link = comments
+            else:
+                link = tag.find_all('td', {"class": "title"})[1].a['href']
             rating = tag.next_sibling.find('td', {'class': 'subtext'}).find_all('span')[0].string
             timestamp = tag.next_sibling.find('td', {'class': 'subtext'}).find_all('span')[1].string
             num_of_comm = tag.next_sibling.find('td', {'class': 'subtext'}).find_all('a')[-1].string

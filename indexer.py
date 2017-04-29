@@ -5,7 +5,9 @@ import nlp
 
 
 def add_to_index(headers):
-    index = defaultdict(list)
+    index = get_index()
+    if index == {}:
+        index = defaultdict(list)
 
     for header in headers:
         header_words = nlp.normalize(header.split(' ^ ')[1])
@@ -15,17 +17,18 @@ def add_to_index(headers):
 
     index_lst = []
     for x in index:
-        index_lst.append(x + ' ^ ' + ' '.join(index[x]) + '\n')
+        if type(x) is not list:
+            index_lst.append(x + ' ^ ' + ' '.join(index[x]) + '\n')
 
     db.write_to_base(db.index_db, index_lst)
 
 
 def get_index():
-    index = {}
+    index = defaultdict(list)
     raw = db.read_from_base(db.index_db)
 
-    for i in raw:
-        j = i.split(' ^ ')
-        index[j[0]] = j[1].split()
+    for item in raw:
+        header = item.split(' ^ ')
+        index[header[0]] = header[1].split()
 
     return index
