@@ -1,5 +1,5 @@
 import crawler
-import database
+import database as db
 import indexer
 import nlp
 
@@ -20,30 +20,29 @@ def __main__():
         inp = input('> ')
 
         if inp == 'news':
-            # w = nlp.learn_my_taste()
+            w = nlp.learn_my_taste()
             all_news = crawler.get_news()
             print(all_news)
 
-            # chosen_news = nlp.exclude_irrelevant_news(all_news, w)
-            # print(chosen_news)
-            #
-            # s1 = approve(all_news)
-            # s2 = approve(chosen_news)
-            #
-            # tp = len(s2)
-            # fp = len(chosen_news) - tp
-            # precision = tp / (tp + fp)
-            # print('precision:', precision)
-            #
-            # fn = len(all_news) - len()
-            # recall = tp / (tp + fn)
+            chosen_news = nlp.exclude_irrelevant_news(all_news, w)
+            print(chosen_news)
 
-            a = indexer.get_index()
-            print(a)
+            indexer.add_to_index(chosen_news)
+            db.write_to_base(db.main_db, chosen_news)
+        elif inp == 'search' or inp == 'src':
+            found = {}
+            words_to_find = input('Enter key words: ').split()
+            index = indexer.get_index()
+            for i in index:
+                if i in words_to_find:
+                    found[i] = index[i]
 
-            database.write_to_base(all_news)
-        # elif inp == 'search' or inp == 'src':
+            for f in found:
+                print(f)
+
         elif inp == 'quit' or inp == 'q':
             return
+        else:
+            print('news - get news\nsearch - search for key words in saved news\nquit\n')
 
 __main__()
