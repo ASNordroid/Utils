@@ -1,26 +1,14 @@
-# Get new hackernews post and decide if I should read'em
 import database
 import requests as rq
 from bs4 import BeautifulSoup
 
 
-# if found new is approved by me add words to best
-# if found new is not approved by me delete words from best (?)
-
-# add rating for words: if line with this word is approved by me rating+=1, else -=1
-
-
 def get_stop_title():
-    db = database.read_from_base(database.main_db)
-    print(db)
-    if db != '':
-        return db[-1].split(' ^ ')[1]
-    else:
-        return 'hello'
+    return database.read_from_base(database.save_db)
 
 
-# def save_stop_title():
-
+def save_stop_title(title):
+    database.write_to_base(database.save_db, (title))
 
 
 def get_news():
@@ -55,7 +43,7 @@ def get_news():
         if next_page != 'false':
             next_page = 'https://news.ycombinator.com/' + soup.find('a', {'class': 'morelink'})['href']
         else:
-            database.write_to_base((news[0]))
+            save_stop_title(news[0])
             break
 
     return news
