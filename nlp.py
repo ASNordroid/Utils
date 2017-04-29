@@ -1,4 +1,4 @@
-import database
+import database as db
 
 
 def normalize(string):
@@ -24,29 +24,29 @@ def normalize(string):
 
 
 def learn_my_taste():
-    with open(database.best_db, '+b') as my_taste_file:
-        my_taste = my_taste_file.read().decode()
+    taste = []
 
-    # print(normalize(my_taste))
-    return normalize(my_taste)
+    headers = db.get_headers()
+    for header in headers:
+        taste += normalize(header[1])
+
+    return taste
 
 
 def exclude_irrelevant_news(f_titles, key_words):
     relevant_news = []
-    titles = [t.split(' - ')[0] for t in f_titles]
-    print('t: ', titles)
+    titles = [_.split(' ^ ')[1] for _ in f_titles]
     cou = 0
+
     for title in titles:
         t = normalize(title)
         rating = 0
 
         for i in t:
             if i in key_words:
-                print(i, end='-')  # debug
                 rating += 1
-        print(rating)  # debug
         if rating > 0:
-            relevant_news.append(f_titles[cou][:-1])
+            relevant_news.append(f_titles[cou])
         cou += 1
 
     return relevant_news
