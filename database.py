@@ -1,5 +1,6 @@
 main_db = 'C:\\Users\\Ant\\PycharmProjects\\hackernews-reader\\base.txt'
-best_db = 'C:\\Users\\Ant\\PycharmProjects\\hackernews-reader\\best.txt'
+save_db = 'C:\\Users\\Ant\\PycharmProjects\\hackernews-reader\\save.txt'
+index_db = 'C:\\Users\\Ant\\PycharmProjects\\hackernews-reader\\index.txt'
 
 
 def read_from_base(db_name):
@@ -11,8 +12,8 @@ def read_from_base(db_name):
     return articles
 
 
-def write_to_base(news):
-    with open(main_db, 'ab') as file:
+def write_to_base(db_name, news):
+    with open(db_name, 'ab') as file:
         for i in news:
             file.write(i.encode())
 
@@ -25,5 +26,3 @@ def get_headers():
         headers.append((line.split(' ^ ')[0], line.split(' ^ ')[1]))
 
     return headers
-
-# def is_in_base(header):
